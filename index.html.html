@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Emotion Analyzer - Gemini API</title>
+    <style>
+        /* Modern Sports Broadcast Style - "Emotion Scoreboard" Theme */
+        :root {
+    --color-dark-bg: #FFF7F2;      /* 전체 배경 – 밝은 크림색 */
+    --color-card-bg: #FFFFFF;      /* 카드 – 순백색 */
+    --color-accent-blue: #FF8BA7;  /* 포인트 – 말랑한 핑크 */
+    --color-text-light: #333333;   /* 기본 글자 – 진한 회색 */
+    --color-text-secondary: #888888;
+    --color-success: #7BC89A;      /* 미션 강조 – 연한 그린 */
+    --color-error: #FF6978;        /* 경고 – 살구핑크 */
+}
+
+
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        /* Spoqa Han Sans Neo (Korean Font) is recommended but not included in standard CSS */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family-main);
+        }
+    {body {
+    background-color: var(--color-dark-bg);
+    color: var(--color-text-light);
+    display: flex;
+    ...
+}
+
+    background-color: var(--color-dark-bg);
+    color: var(--color-text-light);
+    display: flex;
+    ...
+}
+
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            padding: 30px;
+            background: var(--color-dark-bg);
+            border: 2px solid var(--color-accent-blue);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.2); /* Neon Glow */
+            border-radius: 12px;
+        }
+
+        h1 {
+    text-align: center;
+    color: var(--color-accent-blue);
+    text-transform: none;      /* 대문자 변환 끄기 */
+    letter-spacing: 0;
+    font-size: 2.1em;
+    font-weight: 700;
+    margin-bottom: 24px;
+    border-bottom: 2px solid var(--color-accent-blue);
+    padding-bottom: 8px;
+}
+
+
+        /* --- Section Styling --- */
+        section {
+    background-color: var(--color-card-bg);
+    padding: 18px 20px;
+    margin-bottom: 18px;
+    border-radius: 16px;                 /* 둥글게 */
+    border-left: none;                   /* 왼쪽 줄 삭제 */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.06);  /* 부드러운 그림자 */
+}
+
+
+        h2 {
+            color: var(--color-text-light);
+            margin-bottom: 15px;
+            font-size: 1.5em;
+            padding-left: 10px;
+            border-bottom: 1px dashed var(--color-text-secondary);
+            padding-bottom: 5px;
+        }
+
+        /* --- Input Area --- */
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--color-text-secondary);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid var(--color-accent-blue);
+            border-radius: 5px;
+            background-color: #121220;
+            color: var(--color-text-light);
+            resize: vertical;
+            min-height: 150px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--color-success);
+            box-shadow: 0 0 8px rgba(77, 255, 185, 0.5);
+        }
+
+        .emotion-selection {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .emotion-btn {
+            background-color: var(--color-card-bg);
+            border: 2px solid var(--color-text-secondary);
+            color: var(--color-text-light);
+            padding: 10px 15px;
+            font-size: 1.5em;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
+        }
+
+        .emotion-btn:hover {
+            background-color: #3f3f5a;
+        }
+
+        .emotion-btn.selected {
+            border-color: var(--color-accent-blue);
+            background-color: #121220;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px var(--color-accent-blue);
+        }
+        
+        /* --- Button Styling --- */
+        .control-buttons {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 10px;
+            background-color: var(--color-card-bg);
+            border-top: 2px solid var(--color-accent-blue);
+            margin-top: 20px;
+            border-radius: 0 0 12px 12px;
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-start {
+            background-color: var(--color-accent-blue);
+            color: var(--color-dark-bg);
+        }
+
+        .btn-start:hover {
+            background-color: var(--color-success);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.4);
+        }
+
+        .btn-reset, .btn-history {
+            background-color: #3f3f5a;
+            color: var(--color-text-light);
+        }
+
+        .btn-reset:hover {
+            background-color: var(--color-error);
+            transform: translateY(-2px);
+        }
+        
+        .btn-history:hover {
+            background-color: #5d5d82;
+            transform: translateY(-2px);
+        }
+
+        /* --- Result/Analysis Area --- */
+        #result-area {
+            min-height: 250px;
+            padding: 20px;
+            display: none; /* Initial state */
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .analysis-box {
+            background-color: #121220;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--color-text-secondary);
+        }
+
+        .analysis-box h3 {
+            font-size: 1.2em;
+            color: var(--color-accent-blue);
+            margin-bottom: 8px;
+            font-family: var(--font-family-score);
+            text-transform: uppercase;
+        }
+
+        .summary-display {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--color-success);
+        }
+
+        .emotion-tag {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: var(--color-accent-blue);
+            color: var(--color-dark-bg);
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* --- Mission Card UI --- */
+        #mission-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .mission-item {
+            background-color: var(--color-card-bg);
+            padding: 15px;
+            border-radius: 5px;
+            border-left: 5px solid var(--color-success);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s;
+        }
+
+        .mission-item:hover {
+            transform: translateX(5px);
+        }
+
+        /* --- History View --- */
+        #history-view {
+            display: none; /* Initial state */
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .history-entry {
+            background-color: #121220;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 3px solid var(--color-text-secondary);
+        }
+
+        .history-entry strong {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--color-accent-blue);
+        }
+        
+        /* Loading Indicator */
+        .loading-spinner {
+            border: 4px solid var(--color-card-bg);
+            border-top: 4px solid var(--color-accent-blue);
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Gemini Daily Emotion Scoreboard</h1>
+        
+        <div id="status-result-area">
+            
+            <section id="input-section">
+                <h2>📝 Today's Report</h2>
+                <form id="daily-report-form">
+                    <label for="daily-log">오늘 있었던 일 (Today's Log)</label>
+                    <textarea id="daily-log" placeholder="오늘 하루 있었던 일, 느낀 감정 등을 자유롭게 적어주세요." required></textarea>
+
+                    <label>오늘 기분 선택 (Select Emotion)</label>
+                    <div class="emotion-selection">
+                        <button type="button" class="emotion-btn" data-emotion="😊">😊 행복</button>
+                        <button type="button" class="emotion-btn" data-emotion="😢">😢 슬픔</button>
+                        <button type="button" class="emotion-btn" data-emotion="😡">😡 분노</button>
+                        <button type="button" class="emotion-btn" data-emotion="😰">😰 불안</button>
+                        <button type="button" class="emotion-btn" data-emotion="😴">😴 피곤</button>
+                    </div>
+                </form>
+            </section>
+
+            <div class="loading-spinner" id="loading-indicator"></div>
+
+            <section id="result-area">
+                <h2>✅ Gemini Analysis Result</h2>
+
+                <div class="analysis-box">
+                    <h3>오늘의 감정 요약 (Emotion Summary)</h3>
+                    <div id="result-emotion">
+                        <span class="emotion-tag">😊</span>
+                        <span class="summary-display" id="result-summary-tag">긍정적인 하루의 시작</span>
+                    </div>
+                </div>
+
+                <div class="analysis-box">
+                    <h3>주요 고민/주제 (Key Topic)</h3>
+                    <p id="result-topic">팀 프로젝트 마감과 관련된 일정 관리의 어려움</p>
+                </div>
+
+                <div class="analysis-box">
+                    <h3>내일을 위한 미션 (Tomorrow's Mission)</h3>
+                    <ul id="mission-list">
+                        <li class="mission-item">오전 9시, 오늘 기록을 바탕으로 계획 수정</li>
+                        <li class="mission-item">점심 식사 후, 가볍게 10분 산책하기</li>
+                        <li class="mission-item">잠들기 30분 전, 전자기기 끄고 독서하기</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="history-section" style="display: none;">
+                <h2>⏱️ Past Records</h2>
+                <div id="history-view">
+                    </div>
+            </section>
+
+        </div>
+        
+        <div class="control-buttons">
+            <button class="btn-history" onclick="toggleHistoryView()">
+                <span id="history-btn-text">지난 기록 보기</span>
+            </button>
+            <button class="btn-reset" onclick="resetApp()">초기화</button>
+            <button class="btn-start" onclick="register()" id="start-analysis-btn">✨ Gemini 분석 호출</button>
+        </div>
+
+    </div>
+
+    <script>
+        // [핵심요구사항-JavaScript]
+        /**
+         * 🚨 API 서버의 주소를 담는 상수
+         * 현재는 비어있으므로 통신은 catch 블록에서 오류를 반환합니다.
+         */
+        const SERVER_URL = 'https://your-gemini-analysis-server.com/analyze';
+
+        // UI 요소 캐시
+        const dailyLogInput = document.getElementById('daily-log');
+        const emotionButtons = document.querySelectorAll('.emotion-btn');
+        const resultArea = document.getElementById('result-area');
+        const historySection = document.getElementById('history-section');
+        const historyView = document.getElementById('history-view');
+        const historyBtn = document.getElementById('history-btn-text');
+        const startAnalysisBtn = document.getElementById('start-analysis-btn');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        
+        let selectedEmotion = null;
+
+        /**
+         * 이모지 선택 버튼 핸들러
+         */
+        emotionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // 기존 선택 해제
+                emotionButtons.forEach(btn => btn.classList.remove('selected'));
+                
+                // 현재 버튼 선택 및 값 저장
+                button.classList.add('selected');
+                selectedEmotion = button.getAttribute('data-emotion');
+            });
+        });
+
+        /**
+         * 폼 데이터를 수집하여 서버에 전송하고 결과를 처리하는 메인 함수
+         * [핵심요구사항-JavaScript] - fetch 함수 구조 포함
+         */
+        async function register() {
+            const dailyLog = dailyLogInput.value.trim();
+            const dateKey = new Date().toISOString().split('T')[0]; // 오늘 날짜 (YYYY-MM-DD)
+
+            if (!dailyLog || !selectedEmotion) {
+                alert('🚨 오늘 있었던 일과 기분을 모두 선택해 주세요.');
+                return;
+            }
+
+            // UI 상태 변경 (분석 시작)
+            startAnalysisBtn.disabled = true;
+            startAnalysisBtn.textContent = '분석 중...';
+            loadingIndicator.style.display = 'block';
+            resultArea.style.display = 'none';
+
+            const payload = {
+                date: dateKey,
+                log: dailyLog,
+                emotion: selectedEmotion
+            };
+            
+            console.log('Sending payload:', payload);
+
+            try {
+                const response = await fetch(SERVER_URL, {
+                    method: 'POST', // [핵심요구사항] 통신 방식
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // [핵심요구사항] JSON 데이터: 입력 필드의 데이터를 모아 JSON 형태로서버에 전송
+                    body: JSON.stringify(payload) 
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                // 4. 결과 화면 업데이트 및 저장
+                updateResultArea(result);
+                saveRecord(payload, result);
+
+            } catch (error) {
+                // ⚠️ 주의: SERVER_URL이 비어있으므로 이 블록에서 오류가 반환됨
+                console.error('API 통신 오류. (현재는 SERVER_URL이 비어있어 예상된 오류입니다.)', error);
+                
+                // 5. 서버 통신 오류 시 임시 Mock 데이터 사용
+                const mockResult = generateMockResult(dailyLog, selectedEmotion);
+                updateResultArea(mockResult);
+                saveRecord(payload, mockResult);
+
+            } finally {
+                // UI 상태 복구
+                startAnalysisBtn.disabled = false;
+                startAnalysisBtn.textContent = '✨ Gemini 분석 호출';
+                loadingIndicator.style.display = 'none';
+                resultArea.style.display = 'flex';
+                // 입력 필드 초기화 (선택적)
+                dailyLogInput.value = '';
+                emotionButtons.forEach(btn => btn.classList.remove('selected'));
+                selectedEmotion = null;
+            }
+        }
+
+        /**
+         * Gemini 분석 결과로 화면을 업데이트합니다.
+         * @param {object} result - Gemini API 응답 데이터 (감정분석, 요약, 미션 등)
+         */
+        function updateResultArea(result) {
+            document.getElementById('result-summary-tag').textContent = result.summary;
+            document.getElementById('result-emotion').innerHTML = `
+                <span class="emotion-tag">${result.emotionTag}</span>
+                <span class="summary-display">${result.oneLineSummary}</span>
+            `;
+            document.getElementById('result-topic').textContent = result.keyTopic;
+            
+            const missionList = document.getElementById('mission-list');
+            missionList.innerHTML = '';
+            result.missions.forEach(mission => {
+                const li = document.createElement('li');
+                li.className = 'mission-item';
+                li.textContent = mission;
+                missionList.appendChild(li);
+            });
+        }
+        
+        /**
+         * 로컬 저장소에 하루 기록과 Gemini 결과를 저장합니다.
+         */
+        function saveRecord(input, result) {
+            const records = JSON.parse(localStorage.getItem('dailyRecords') || '{}');
+            const newRecord = {
+                input: input,
+                result: result,
+                timestamp: new Date().toLocaleString()
+            };
+            records[input.date] = newRecord;
+            localStorage.setItem('dailyRecords', JSON.stringify(records));
+            console.log(`Record saved for ${input.date}`);
+        }
+        
+        /**
+         * 지난 기록 보기 뷰를 토글합니다.
+         */
+        function toggleHistoryView() {
+            const isHidden = historySection.style.display === 'none';
+            if (isHidden) {
+                loadHistory();
+                historySection.style.display = 'block';
+                document.getElementById('input-section').style.display = 'none';
+                resultArea.style.display = 'none';
+                startAnalysisBtn.style.display = 'none';
+                historyBtn.textContent = '기록 숨기기';
+            } else {
+                historySection.style.display = 'none';
+                document.getElementById('input-section').style.display = 'block';
+                // Result area shows only if data has been submitted
+                if (localStorage.getItem('dailyRecords')) {
+                    resultArea.style.display = 'flex';
+                }
+                startAnalysisBtn.style.display = 'block';
+                historyBtn.textContent = '지난 기록 보기';
+            }
+        }
+
+        /**
+         * localStorage의 기록을 불러와 타임라인 형태로 표시합니다.
+         */
+        function loadHistory() {
+            const records = JSON.parse(localStorage.getItem('dailyRecords') || '{}');
+            const dates = Object.keys(records).sort().reverse();
+            historyView.innerHTML = '';
+
+            if (dates.length === 0) {
+                historyView.innerHTML = '<p style="text-align: center; color: var(--color-text-secondary);">저장된 기록이 없습니다.</p>';
+                return;
+            }
+
+            dates.forEach(date => {
+                const record = records[date];
+                const entry = document.createElement('div');
+                entry.className = 'history-entry';
+                entry.innerHTML = `
+                    <strong>🗓️ ${date} (${record.input.emotion})</strong>
+                    <p style="margin-bottom: 5px;">${record.result.oneLineSummary}</p>
+                    <p style="font-size: 0.9em; color: var(--color-text-secondary);">주제: ${record.result.keyTopic}</p>
+                    <details>
+                        <summary style="cursor: pointer; color: var(--color-success);">상세 보기</summary>
+                        <p><strong>원문:</strong> ${record.input.log.substring(0, 100)}...</p>
+                        <p><strong>미션:</strong> ${record.result.missions.join(' | ')}</p>
+                    </details>
+                `;
+                historyView.appendChild(entry);
+            });
+        }
+
+        /**
+         * 앱 상태를 초기화합니다.
+         */
+        function resetApp() {
+            if (confirm('모든 입력 필드를 초기화하시겠습니까? (저장된 기록은 삭제되지 않습니다.)')) {
+                dailyLogInput.value = '';
+                emotionButtons.forEach(btn => btn.classList.remove('selected'));
+                selectedEmotion = null;
+                resultArea.style.display = 'none';
+                if (historySection.style.display !== 'none') {
+                     toggleHistoryView(); // 기록 보기 상태면 입력 화면으로 돌아가기
+                }
+                console.log('App reset.');
+            }
+        }
+
+        /**
+         * 서버 오류 시 사용할 Mock 데이터 생성 함수 (API 구조 이해 돕기 위함)
+         */
+        function generateMockResult(log, emotion) {
+            let summary, topic, missions;
+            
+            if (emotion === '😊') {
+                summary = "성공적인 프로젝트와 함께 긍정적인 하루를 보내셨네요.";
+                topic = "업무 성과 달성 및 팀원들과의 긍정적인 관계 유지";
+                missions = ["오늘의 성과를 기록하고 자신에게 보상하기", "팀원들에게 감사의 메시지 전하기", "내일의 핵심 목표 1가지 설정하기"];
+            } else if (emotion === '😢') {
+                summary = "힘든 감정을 솔직하게 마주한 용기 있는 하루였습니다.";
+                topic = "해결되지 않은 개인적인 문제로 인한 스트레스";
+                missions = ["따뜻한 차를 마시며 10분간 명상하기", "친한 친구에게 솔직한 감정을 이야기하기", "내일은 아주 작은 기쁨을 찾도록 노력하기"];
+            } else { // 😡, 😰, 😴 등
+                summary = "다양한 외부 요인으로 인해 에너지가 많이 소모된 하루입니다.";
+                topic = "불규칙한 수면 패턴과 마감 기한으로 인한 피로 누적";
+                missions = ["저녁 11시에 스마트폰 끄고 침대에 눕기", "30분 일찍 퇴근 후 좋아하는 음악 듣기", "오늘의 감정을 그림/낙서로 표현해보기"];
+            }
+
+            return {
+                emotionTag: emotion,
+                oneLineSummary: summary,
+                keyTopic: topic,
+                missions: missions
+            };
+        }
+    </script>
+
+</body>
+</html>
