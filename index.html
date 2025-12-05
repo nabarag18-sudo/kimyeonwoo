@@ -421,7 +421,7 @@
             console.log('Sending payload:', payload);
 
             try {
-                const response = await fetch(SERVER_URL, {
+                const response = await fetch(`${SERVER_URL}/register`, {
                     method: 'POST', // [핵심요구사항] 통신 방식
                     headers: {
                         'Content-Type': 'application/json',
@@ -601,6 +601,7 @@
 
 </body>
 </html>
+
 
 
 
