@@ -320,6 +320,115 @@
 .btn-reset:hover{
   filter: brightness(0.97);
 }
+/* =========================
+   🌸 PINK BOOST FINAL PATCH
+   ========================= */
+
+/* 전체 배경에 핑크 그라데이션 살짝 */
+body{
+  background: linear-gradient(
+    135deg,
+    #FFF0F5 0%,
+    #FFE4EC 50%,
+    #FFF7F2 100%
+  );
+}
+
+/* 메인 카드 더 핑크하게 */
+.container{
+  border: 2px solid rgba(255,139,167,0.55) !important;
+  box-shadow:
+    0 20px 50px rgba(255,139,167,0.18),
+    0 8px 20px rgba(0,0,0,0.08) !important;
+}
+
+/* 섹션 카드 핑크 포인트 */
+section{
+  border: 1px solid rgba(255,139,167,0.25) !important;
+}
+
+/* 메인 제목 핑크 강조 */
+h1{
+  color: #FF6F91 !important;
+  text-shadow: 0 4px 10px rgba(255,111,145,0.25);
+}
+
+/* 소제목에도 은은한 핑크 */
+h2{
+  color: #444 !important;
+  border-bottom: 1px dashed rgba(255,139,167,0.4) !important;
+}
+
+/* 입력창 포커스 시 핑크 글로우 */
+textarea:focus{
+  border-color: #FF8BA7 !important;
+  box-shadow: 0 0 0 4px rgba(255,139,167,0.18) !important;
+}
+
+/* 이모지 버튼 핑크감 업 */
+.emotion-btn{
+  background: #FFF !important;
+  border: 1.5px solid rgba(255,139,167,0.35) !important;
+}
+
+.emotion-btn.selected{
+  background: linear-gradient(
+    135deg,
+    #FFD1DC,
+    #FFB6C1
+  ) !important;
+  border-color: #FF6F91 !important;
+  box-shadow: 0 10px 22px rgba(255,139,167,0.35) !important;
+}
+
+/* 메인 분석 버튼 = 핑크 주인공 */
+.btn-start{
+  background: linear-gradient(
+    135deg,
+    #FF6F91,
+    #FF8BA7
+  ) !important;
+  color: #fff !important;
+  box-shadow:
+    0 14px 30px rgba(255,111,145,0.45),
+    0 4px 10px rgba(0,0,0,0.15) !important;
+}
+
+.btn-start:hover{
+  transform: translateY(-3px) scale(1.02);
+}
+
+/* 보조 버튼 = 핑크+노랑 파스텔 */
+.btn-history,
+.btn-reset{
+  background: linear-gradient(
+    135deg,
+    #FFE08A,
+    #FFD1DC
+  ) !important;
+  color: #5a2a3c !important;
+}
+
+/* 결과 카드 강조 */
+.analysis-box{
+  border: 1px solid rgba(255,139,167,0.3) !important;
+  background: linear-gradient(
+    180deg,
+    #FFFFFF,
+    #FFF4F7
+  ) !important;
+}
+
+/* 감정 태그 핑크 뱃지 */
+.emotion-tag{
+  background: linear-gradient(
+    135deg,
+    #FF6F91,
+    #FF8BA7
+  ) !important;
+  color: #fff !important;
+  box-shadow: 0 6px 14px rgba(255,139,167,0.4);
+}
 
     </style>
 </head>
@@ -635,6 +744,7 @@
 
 </body>
 </html>
+
 
 
 
