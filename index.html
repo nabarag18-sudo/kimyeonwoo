@@ -26,17 +26,14 @@
             padding: 0;
             font-family: var(--font-family-main);
         }
-    {body {
+    body {
     background-color: var(--color-dark-bg);
     color: var(--color-text-light);
+    min-height: 100vh;
     display: flex;
-    ...
-}
-
-    background-color: var(--color-dark-bg);
-    color: var(--color-text-light);
-    display: flex;
-    ...
+    justify-content: center;   /* ✅ 가로 가운데 */
+    align-items: flex-start;   /* ✅ 위에서부터 */
+    padding: 40px 16px;        /* ✅ 모바일/PC 여백 */
 }
 
 
@@ -91,14 +88,20 @@
             color: var(--color-text-secondary);
         }
 
-        textarea {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid var(--color-accent-blue);
-            border-radius: 5px;
-            background-color: #121220;
-            color: var(--color-text-light);
+       textarea {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid var(--color-accent-blue);
+    border-radius: 10px;
+    background-color: #FFFFFF;      /* ✅ 밝게 */
+    color: #222222;                 /* ✅ 글씨 진하게 */
+    resize: vertical;
+    min-height: 150px;
+    font-size: 1em;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
             resize: vertical;
             min-height: 150px;
             font-size: 1em;
@@ -199,11 +202,11 @@
         }
 
         .analysis-box {
-            background-color: #121220;
-            padding: 15px;
-            border-radius: 6px;
-            border: 1px solid var(--color-text-secondary);
-        }
+    background-color: #FFFFFF;      /* ✅ 밝게 */
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid #EDEDED;
+}
 
         .analysis-box h3 {
             font-size: 1.2em;
@@ -258,11 +261,12 @@
         }
 
         .history-entry {
-            background-color: #121220;
-            padding: 15px;
-            border-radius: 6px;
-            border-left: 3px solid var(--color-text-secondary);
-        }
+    background-color: #FFFFFF;      /* ✅ 밝게 */
+    padding: 15px;
+    border-radius: 12px;
+    border-left: 3px solid var(--color-accent-blue);
+    border: 1px solid #EFEFEF;
+}
 
         .history-entry strong {
             display: block;
@@ -601,6 +605,7 @@
 
 </body>
 </html>
+
 
 
 
