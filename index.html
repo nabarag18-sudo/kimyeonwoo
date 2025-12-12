@@ -14,6 +14,8 @@
     --color-text-secondary: #888888;
     --color-success: #7BC89A;      /* 미션 강조 – 연한 그린 */
     --color-error: #FF6978;        /* 경고 – 살구핑크 */
+  --color-soft-yellow: #FFE8A3;   /* 버튼용 연노랑 */
+    --color-soft-yellow-hover: #FFD66B;
 }
 
 
@@ -178,19 +180,16 @@
         }
 
         .btn-reset, .btn-history {
-            background-color: #3f3f5a;
-            color: var(--color-text-light);
-        }
+    background-color: var(--color-soft-yellow);
+    color: #5a4a00;   /* 진한 브라운 계열 글씨 */
+}  
 
-        .btn-reset:hover {
-            background-color: var(--color-error);
-            transform: translateY(-2px);
-        }
-        
-        .btn-history:hover {
-            background-color: #5d5d82;
-            transform: translateY(-2px);
-        }
+       .btn-reset:hover,
+.btn-history:hover {
+    background-color: var(--color-soft-yellow-hover);
+    transform: translateY(-2px);
+}
+
 
         /* --- Result/Analysis Area --- */
         #result-area {
@@ -605,6 +604,7 @@
 
 </body>
 </html>
+
 
 
 
