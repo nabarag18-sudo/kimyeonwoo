@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Emotion Analyzer - Gemini API</title>
     <style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
         /* Modern Sports Broadcast Style - "Emotion Scoreboard" Theme */
         :root {
     --color-dark-bg: #FFF7F2;      /* 전체 배경 – 밝은 크림색 */
@@ -14,8 +18,9 @@
     --color-text-secondary: #888888;
     --color-success: #7BC89A;      /* 미션 강조 – 연한 그린 */
     --color-error: #FF6978;        /* 경고 – 살구핑크 */
-  --color-soft-yellow: #FFE8A3;   /* 버튼용 연노랑 */
+    --color-soft-yellow: #FFE8A3;   /* 버튼용 연노랑 */
     --color-soft-yellow-hover: #FFD66B;
+    --font-main: "Pretendard", "Roboto", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
 
@@ -26,7 +31,13 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: var(--font-family-main);
+           * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+}
+
         }
     body {
     background-color: var(--color-dark-bg);
@@ -39,48 +50,49 @@
 }
 
 
-        .container {
-            width: 100%;
-            max-width: 900px;
-            padding: 30px;
-            background: var(--color-dark-bg);
-            border: 2px solid var(--color-accent-blue);
-            box-shadow: 0 0 40px rgba(0, 255, 255, 0.2); /* Neon Glow */
-            border-radius: 12px;
-        }
-
-        h1 {
-    text-align: center;
-    color: var(--color-accent-blue);
-    text-transform: none;      /* 대문자 변환 끄기 */
-    letter-spacing: 0;
-    font-size: 2.1em;
-    font-weight: 700;
-    margin-bottom: 24px;
-    border-bottom: 2px solid var(--color-accent-blue);
-    padding-bottom: 8px;
+       .container{
+  width: 100%;
+  max-width: 920px;
+  padding: 28px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(255,139,167,0.35);
+  box-shadow: 0 18px 50px rgba(0,0,0,0.10);
+  border-radius: 18px;
+  backdrop-filter: blur(6px);
 }
+
+        h1{
+  text-align: center;
+  color: var(--color-accent-blue);
+  font-size: 2.1em;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 22px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(255,139,167,0.65);
+}
+
 
 
         /* --- Section Styling --- */
-        section {
-    background-color: var(--color-card-bg);
-    padding: 18px 20px;
-    margin-bottom: 18px;
-    border-radius: 16px;                 /* 둥글게 */
-    border-left: none;                   /* 왼쪽 줄 삭제 */
-    box-shadow: 0 8px 20px rgba(0,0,0,0.06);  /* 부드러운 그림자 */
+       section{
+  background-color: var(--color-card-bg);
+  padding: 18px 20px;
+  margin-bottom: 18px;
+  border-radius: 16px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.05);
 }
 
 
-        h2 {
-            color: var(--color-text-light);
-            margin-bottom: 15px;
-            font-size: 1.5em;
-            padding-left: 10px;
-            border-bottom: 1px dashed var(--color-text-secondary);
-            padding-bottom: 5px;
-        }
+       h2{
+  color: #222;
+  margin-bottom: 14px;
+  font-size: 1.35em;
+  font-weight: 700;
+  border-bottom: 1px dashed rgba(0,0,0,0.15);
+  padding-bottom: 8px;
+}
 
         /* --- Input Area --- */
         label {
@@ -122,27 +134,30 @@
             margin-bottom: 20px;
         }
 
-        .emotion-btn {
-            background-color: var(--color-card-bg);
-            border: 2px solid var(--color-text-secondary);
-            color: var(--color-text-light);
-            padding: 10px 15px;
-            font-size: 1.5em;
-            cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.2s, border-color 0.2s, transform 0.1s;
-        }
+        .emotion-btn{
+  background: #fff;
+  border: 1px solid rgba(0,0,0,0.12);
+  color: #222;
+  padding: 10px 14px;
+  font-size: 1.05em;
+  border-radius: 999px;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
 
-        .emotion-btn:hover {
-            background-color: #3f3f5a;
-        }
+.emotion-btn:hover{
+  border-color: rgba(255,139,167,0.7);
+  transform: translateY(-1px);
+}
 
-        .emotion-btn.selected {
-            border-color: var(--color-accent-blue);
-            background-color: #121220;
-            transform: scale(1.1);
-            box-shadow: 0 0 10px var(--color-accent-blue);
-        }
+.emotion-btn.selected{
+  border-color: var(--color-accent-blue);
+  background: rgba(255,139,167,0.12);
+  box-shadow: 0 8px 18px rgba(255,139,167,0.22);
+  transform: translateY(-1px);
+}
+
         
         /* --- Button Styling --- */
         .control-buttons {
@@ -156,39 +171,39 @@
             border-radius: 0 0 12px 12px;
         }
 
-        button {
-            padding: 12px 25px;
-            font-size: 1.1em;
-            font-weight: bold;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: background-color 0.3s, transform 0.1s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn-start {
-            background-color: var(--color-accent-blue);
-            color: var(--color-dark-bg);
-        }
-
-        .btn-start:hover {
-            background-color: var(--color-success);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 255, 255, 0.4);
-        }
-
-        .btn-reset, .btn-history {
-    background-color: var(--color-soft-yellow);
-    color: #5a4a00;   /* 진한 브라운 계열 글씨 */
-}  
-
-       .btn-reset:hover,
-.btn-history:hover {
-    background-color: var(--color-soft-yellow-hover);
-    transform: translateY(-2px);
+       button{
+  padding: 12px 18px;
+  font-size: 1.05em;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s, background-color 0.2s;
+  letter-spacing: -0.01em;
+  text-transform: none; /* 대문자 제거 */
 }
+
+.btn-start{
+  background-color: var(--color-accent-blue);
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(255,139,167,0.28);
+}
+
+.btn-start:hover{
+  transform: translateY(-2px);
+}
+
+.btn-reset, .btn-history{
+  background-color: var(--color-soft-yellow, #FFE8A3);
+  color: #5a4a00;
+  box-shadow: 0 10px 22px rgba(255,214,107,0.25);
+}
+
+.btn-reset:hover, .btn-history:hover{
+  background-color: var(--color-soft-yellow-hover, #FFD66B);
+  transform: translateY(-2px);
+}
+
 
 
         /* --- Result/Analysis Area --- */
@@ -604,6 +619,7 @@
 
 </body>
 </html>
+
 
 
 
