@@ -304,6 +304,22 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
+/* ✅ 테마/버튼 복구 패치 (최종 승자) */
+.btn-start{
+  background-color: var(--color-accent-blue) !important;
+  color: #1f1f1f !important;
+}
+
+.btn-history,
+.btn-reset{
+  background-color: #FFE08A !important;
+  color: #1f1f1f !important;
+}
+
+.btn-history:hover,
+.btn-reset:hover{
+  filter: brightness(0.97);
+}
 
     </style>
 </head>
@@ -619,6 +635,7 @@
 
 </body>
 </html>
+
 
 
 
